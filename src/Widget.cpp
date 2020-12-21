@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFileDialog>
 
+
 Widget::Widget(QWidget *parent):
     QWidget(parent)
 {
@@ -23,6 +24,8 @@ Widget::Widget(QWidget *parent):
     connect(clearBtn, &QPushButton::clicked, this, &Widget::clear);
     connect(readBtn, &QPushButton::clicked, this, &Widget::read);
     connect(saveBtn, &QPushButton::clicked, this, &Widget::save);
+
+    writeWorker = new WriteWorker(this);
 }
 
 Widget::~Widget()
@@ -98,5 +101,7 @@ void Widget::save()
                 QStringLiteral("."),
                 QStringLiteral("*.txt"));
 #endif
-    writer->write(tableModel->getPhonebook(), file);
+    writeWorker->setFilePath(file);
+    writeWorker->setPhoneBook(tableModel->getPhonebook());
+    writeWorker->start();
 }

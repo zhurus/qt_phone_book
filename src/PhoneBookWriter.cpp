@@ -9,18 +9,31 @@ PhoneBookWriter::PhoneBookWriter(QObject* parent):
 
 }
 
-bool PhoneBookWriter::write(const PhoneBook& phonebook, const QString& filePath)
+void PhoneBookWriter::write(const PhoneBook& phonebook, const QString& filePath)
 {
     QFile file(filePath);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return false;
-
-    QTextStream stream(&file);
-    for(const auto& item : phonebook) {
-        stream << item.getSecondName() << " "
-               << item.getFirstName() << " " <<
-                  item.getPhoneNumber() << "\r\n";
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        for(const auto& item : phonebook) {
+            if(item.getFirstName().isEmpty())
+                continue;
+            if(item.getSecondName().isEmpty())
+                 continue;
+            if(item.getPhoneNumber().isEmpty())
+                continue;
+            stream << item.getSecondName() << " "
+                   << item.getFirstName() << " " <<
+                      item.getPhoneNumber() << "\r\n";
+        }
+        file.close();
+        m_lastStatus = SUCCESS;
+    } else {
+        m_lastStatus = FAILED;
     }
-    file.close();
-    return true;
+    emit done();
+}
+
+PhoneBookWriter::Status PhoneBookWriter::getLastStatus() const
+{
+    return m_lastStatus;
 }

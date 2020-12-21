@@ -7,7 +7,8 @@
 #include <QVBoxLayout>
 
 #include "PhoneBookReader.h"
-#include "PhoneBookWriter.h"
+#include "WriteWorker.h"
+//#include "PhoneBookWriter.h"
 
 #include "TableModel.h"
 #include "StringDelegate.h"
@@ -40,9 +41,10 @@ private:
     QPushButton* saveBtn;
 
     PhoneBookReader* reader = new PhoneBookReader(this);
-    PhoneBookWriter* writer = new PhoneBookWriter(this);
+    WriteWorker* writeWorker = new WriteWorker(this);
 
     QTableView* tableView;
     TableModel* tableModel;
+
 };
 
