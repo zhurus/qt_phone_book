@@ -19,7 +19,7 @@ public:
     QString getSecondName() const;
     void setSecondName(const QString& secondName);
 
-    inline static int fieldsNumber();
+    static int fieldsNumber();
 
 private:
     QString m_secondName;
