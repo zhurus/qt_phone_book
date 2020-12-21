@@ -4,8 +4,6 @@
 #include <QRegExp>
 
 
-#define DEBUG
-
 class PhoneBookItem
 {
 public:
