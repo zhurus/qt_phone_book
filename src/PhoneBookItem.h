@@ -4,6 +4,8 @@
 #include <QRegExp>
 
 
+#define DEBUG
+
 class PhoneBookItem
 {
 public:
@@ -20,8 +22,18 @@ public:
     void setSecondName(const QString& secondName);
 
     static int fieldsNumber();
+    static QRegExp getPhoneNumber_re();
+
+    bool operator==(const PhoneBookItem& other) const;
+
+    struct DescOrder
+    {
+        bool operator()(const PhoneBookItem& item1, const PhoneBookItem& item2);
+    };
 
 private:
+    const static QRegExp phoneNumber_re;
+
     QString m_secondName;
     QString m_firstName;
     QString m_phoneNumber;

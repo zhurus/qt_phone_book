@@ -7,6 +7,9 @@
 #include <QVBoxLayout>
 
 #include "PhoneBookReader.h"
+#include "PhoneBookWriter.h"
+
+#include "TableModel.h"
 
 
 class Widget : public QWidget
@@ -26,7 +29,6 @@ public slots:
 private:
     QHBoxLayout* mainLayout;
     QVBoxLayout* buttonsLayout;
-    QTableView* tableView;
 
     QPushButton* addBtn;
     QPushButton* removeBtn;
@@ -35,5 +37,9 @@ private:
     QPushButton* saveBtn;
 
     PhoneBookReader* reader = new PhoneBookReader(this);
+    PhoneBookWriter* writer = new PhoneBookWriter(this);
+
+    QTableView* tableView;
+    TableModel* tableModel;
 };
 
