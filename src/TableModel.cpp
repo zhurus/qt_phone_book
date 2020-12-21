@@ -1,5 +1,7 @@
 #include "TableModel.h"
 
+
+
 TableModel::TableModel(QObject* parent):
     QAbstractTableModel(parent)
 {
@@ -20,8 +22,6 @@ int TableModel::columnCount(const QModelIndex& parent) const
 QVariant TableModel::data(const QModelIndex& index, int role) const
 {
     if(role != Qt::DisplayRole)
-        return QVariant();
-    if(index.row() >= m_phonebook.size())
         return QVariant();
     switch (index.column()) {
     case 0:
@@ -92,6 +92,12 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation,
     }
 }
 
+Qt::ItemFlags TableModel::flags(const QModelIndex& index) const
+{
+    Q_UNUSED(index)
+    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
 void TableModel::setPhonebook(const PhoneBook& phonebook)
 {
     beginResetModel();
@@ -125,3 +131,5 @@ void TableModel::clear()
     m_phonebook.clear();
     endResetModel();
 }
+
+

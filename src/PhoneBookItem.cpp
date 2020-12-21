@@ -2,7 +2,7 @@
 
 
 const QRegExp PhoneBookItem::phoneNumber_re(
-        QStringLiteral("\\+{0,1}\\d{1,3}-\\d{3}-\\d{3}-\\d{2}-\\d{2}"));
+        QStringLiteral("\\+{0,1}\\d{1,3}-\\d{3,3}-\\d{3,3}-\\d{2,2}-\\d{2,2}"));
 
 
 QString PhoneBookItem::getPhoneNumber() const

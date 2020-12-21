@@ -20,6 +20,7 @@ public:
                  int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     void setPhonebook(const PhoneBook& phonebook);
     PhoneBook getPhonebook() const;

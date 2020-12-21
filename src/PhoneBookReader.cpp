@@ -22,7 +22,7 @@ PhoneBookReader::Status PhoneBookReader::read(const QString& filepath)
     }
     phoneBook.clear();
     QTextStream stream(&file);
-    static QRegExp splitter("[\\s+\t+]+");
+    static QRegExp splitter("[\\s\t]+");
     Status ret = SUCCESS;
     int lineNumber = 0;
     nMistakes = 0;
