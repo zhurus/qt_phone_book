@@ -10,6 +10,7 @@
 #include "PhoneBookWriter.h"
 
 #include "TableModel.h"
+#include "StringDelegate.h"
 
 
 class Widget : public QWidget
@@ -27,6 +28,8 @@ public slots:
     void save();
 
 private:
+    void setupUi();
+
     QHBoxLayout* mainLayout;
     QVBoxLayout* buttonsLayout;
 

@@ -4,19 +4,42 @@
 #include <QDebug>
 #include <QFileDialog>
 
-
 Widget::Widget(QWidget *parent):
-    QWidget(parent),
-    mainLayout(new QHBoxLayout),
-    buttonsLayout(new QVBoxLayout),
-    addBtn(new QPushButton(tr("Add item"), this)),
-    removeBtn(new QPushButton(tr("Remove item"), this)),
-    clearBtn(new QPushButton(tr("Clear"), this)),
-    readBtn(new QPushButton(tr("Read from file..."), this)),
-    saveBtn(new QPushButton(tr("Save to..."), this)),
-    tableView(new QTableView(this)),
-    tableModel(new TableModel(this))
+    QWidget(parent)
 {
+    tableModel = new TableModel(this);
+    tableView = new QTableView(this);
+    tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->setModel(tableModel);
+    tableView->setSelectionBehavior(
+                QAbstractItemView::SelectionBehavior::SelectRows);
+
+    StringDelegate* delegate = new StringDelegate(this);
+    tableView->setItemDelegate(delegate);
+    setupUi();
+
+    connect(addBtn, &QPushButton::clicked, this, &Widget::addItem);
+    connect(removeBtn, &QPushButton::clicked, this, &Widget::removeItem);
+    connect(clearBtn, &QPushButton::clicked, this, &Widget::clear);
+    connect(readBtn, &QPushButton::clicked, this, &Widget::read);
+    connect(saveBtn, &QPushButton::clicked, this, &Widget::save);
+}
+
+Widget::~Widget()
+{
+    delete buttonsLayout;
+}
+
+void Widget::setupUi()
+{
+    mainLayout = new QHBoxLayout(this);
+    buttonsLayout = new QVBoxLayout;
+    addBtn = new QPushButton(tr("Add item"), this);
+    removeBtn = new QPushButton(tr("Remove item"), this);
+    clearBtn = new QPushButton(tr("Clear"), this);
+    readBtn = new QPushButton(tr("Read from file..."), this);
+    saveBtn = new QPushButton(tr("Save to..."), this);
+
     setLayout(mainLayout);
     mainLayout->addWidget(tableView);
     mainLayout->addLayout(buttonsLayout);
@@ -28,24 +51,9 @@ Widget::Widget(QWidget *parent):
     buttonsLayout->addWidget(saveBtn);
     buttonsLayout->addStretch();
 
-    tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->setMinimumSize(400, 300);
 
-    connect(addBtn, &QPushButton::clicked, this, &Widget::addItem);
-    connect(removeBtn, &QPushButton::clicked, this, &Widget::removeItem);
-    connect(clearBtn, &QPushButton::clicked, this, &Widget::clear);
-    connect(readBtn, &QPushButton::clicked, this, &Widget::read);
-    connect(saveBtn, &QPushButton::clicked, this, &Widget::save);
-
-    tableView->setModel(tableModel);
-    tableView->setSelectionBehavior(
-                QAbstractItemView::SelectionBehavior::SelectRows);
-}
-
-Widget::~Widget()
-{
-    delete mainLayout;
-    delete buttonsLayout;
+    setWindowTitle(tr("Phone book"));
 }
 
 void Widget::addItem()
