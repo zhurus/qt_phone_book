@@ -51,6 +51,7 @@ PhoneBookReader::Status PhoneBookReader::read(const QString& filepath)
 
         phoneBook.push_back(item);
     }
+    file.close();
     return ret;
 }
 
